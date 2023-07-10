@@ -20,6 +20,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use TZ_Portfolio_Plus\Image\TppImageWaterMark;
@@ -60,5 +61,56 @@ class TZ_Portfolio_Plus_Addon_VideoModelVideo extends TZ_Portfolio_PlusModelAddo
             $data -> addon -> {$this -> addon_element}  = $_data -> value;
         }
         return $data;
+    }
+
+    function getForm($data = array(), $loadData = true){
+
+        $form_name  = 'com_tz_portfolio_plus.'.$this -> getName();
+        $form_path  = '';
+
+        // Load addon's form
+        if($addonId = $this -> getState($this -> getName().'.addon_id', Factory::getApplication()->input->getInt('addon_id'))){
+
+            // Get a row instance.
+            $table = $this->getTable('Extensions','TZ_Portfolio_PlusTable');
+
+            // Attempt to load the row.
+            $return = $table->load($addonId);
+
+            // Check for a table object error.
+            if ($return === false && $table->getError())
+            {
+                $this->setError($table->getError());
+
+                return $return;
+            }
+
+            $path   = COM_TZ_PORTFOLIO_PLUS_ADDON_PATH.DIRECTORY_SEPARATOR.$table -> folder
+                .DIRECTORY_SEPARATOR.$table -> element;
+
+            $form_name  = 'com_tz_portfolio_plus.addon.'.$table -> folder.'.'.$this -> getName();
+            $form_path  = $path.DIRECTORY_SEPARATOR.'admin/models/form/'.$this -> getName().'.xml';
+
+            if(!file_exists($form_path)){
+                $form_path  = $path.DIRECTORY_SEPARATOR.'admin/models/forms/'.$this -> getName().'.xml';
+            }
+
+            // Add plugin form's path
+            JForm::addFormPath($path.DIRECTORY_SEPARATOR.'admin/models/form');
+            JForm::addFormPath($path.DIRECTORY_SEPARATOR.'admin/models/forms');
+
+        }
+
+        $form = $this->loadForm($form_name
+            , $this -> getName(), array('control' => 'jform', 'load_data' => $loadData));
+
+        if(!empty($form_path) && file_exists($form_path)) {
+            $form->loadFile($form_path, false);
+        }
+
+        if (empty($form)) {
+            return false;
+        }
+        return $form;
     }
 }

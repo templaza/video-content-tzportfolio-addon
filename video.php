@@ -22,6 +22,10 @@
 // No direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\Utilities\ArrayHelper;
+
 class PlgTZ_Portfolio_PlusContentVideo extends TZ_Portfolio_PlusPlugin
 {
     protected $autoloadLanguage = true;
@@ -90,6 +94,75 @@ class PlgTZ_Portfolio_PlusContentVideo extends TZ_Portfolio_PlusPlugin
 //        $position   = $this -> __addFormToPosition($article);
 //        return $position;
 //    }
+
+    protected function __addFormToPosition($article = null, $position = 'before_description'){
+        $_position  = new stdClass();
+        $lang       = Factory::getApplication() -> getLanguage();
+        $lang_key   = 'PLG_' . $this->_type . '_' . $this->_name . '_TITLE';
+        $lang_key   = strtoupper($lang_key);
+        $model      = null;
+        $this -> form   = null;
+
+        if ($lang->hasKey($lang_key)) {
+            $_position -> title = JText::_($lang_key);
+        } else {
+            $_position -> title = $this->_name;
+        }
+
+        $_position -> addon  = $this->_name;
+        $_position -> group  = $this->_type;
+
+        $_position -> position   = $position;
+
+        if($model = $this -> getModel($this -> _name, 'TZ_Portfolio_Plus_Addon_'.ucfirst($this -> _name).'Model')) {
+            // Get addon info
+            $addon      = TZ_Portfolio_PlusPluginHelper::getPlugin($this -> _type, $this -> _name);
+
+            $model->setState($this->_name . '.addon_id', $addon -> id);
+
+            $table  = $model -> getTable();
+            if($table -> load(array('extension_id' => $addon -> id, 'content_id' => $article -> id))) {
+                $model->setState($this->_name . '.id', (int)$table->get('id'));
+
+                $properties = $table->getProperties(1);
+                $data = ArrayHelper::toObject($properties, '\JObject');
+
+                if($data && isset($data -> value) && is_string($data -> value)){
+                    $data -> value  = json_decode($data -> value);
+                }
+            }
+
+            $path           = TZ_Portfolio_PlusPluginHelper::getLayoutPath($this -> _type, $this -> _name, 'admin');
+
+            if(method_exists($model, 'getForm')) {
+                $this->form = $model->getForm();
+            }else {
+                $this->form->loadFile(COM_TZ_PORTFOLIO_PLUS_ADDON_PATH . '/' . $this->_type . '/' . $this->_name
+                    . '/admin/models/forms/' . $this->_name . '.xml', false);
+            }
+
+            if(!empty($this -> form)){
+                $_data   = new stdClass();
+                $_data -> addon  = new stdClass();
+                if(isset($data)) {
+                    $_data->addon->{$this->_name} = $data->value;
+                }
+                $this -> form -> bind($_data);
+            }
+
+            $this -> item   = $article;
+            if(File::exists($path) && isset($this -> form) && $this -> form) {
+                ob_start();
+                require $path;
+                $content = ob_get_contents();
+                ob_end_clean();
+                $_position -> html = $content;
+            }
+
+        }
+
+        return $_position;
+    }
     public function onAddFormAfterArticleDescription($article = null){
         $position   = $this -> __addFormToPosition($article);
         return $position;

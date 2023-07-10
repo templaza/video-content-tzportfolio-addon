@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <!-- Form's field for article's create or edit view -->
+    <fields name="addon">
+        <fields name="video">
+            <fieldset addfieldpath="/administrator/components/com_tz_portfolio_plus/models/fields" name="basic">
+                <field type="text" name="title"
+                       label="COM_TZ_PORTFOLIO_PLUS_LABEL_TITLE"/>
+                <field type="list" name="title_element" default="h3" showon="title!:"
+                       label="TZPORTFOLIO_ADDON_HTML_ELEMENT">
+                    <option value="h1">h1</option>
+                    <option value="h2">h2</option>
+                    <option value="h3">h3</option>
+                    <option value="h4">h4</option>
+                    <option value="h5">h5</option>
+                    <option value="h6">h6</option>
+                </field>
+                <field type="tzfont" name="title_font" default="" showon="title!:"
+                       label="TZPORTFOLIO_ADDON_TITLE_FONT">
+                </field>
+                <field type="color" name="title_color" default="" format="rgba" showon="title!:"
+                       label="TZPORTFOLIO_ADDON_TITLE_COLOR">
+                </field>
+                <field type="color" name="title_color_hover" default="" format="rgba" showon="title!:"
+                       label="TZPORTFOLIO_ADDON_TITLE_COLOR_HOVER">
+                </field>
+                <field type="number" name="title_margin_top" showon="title!:"
+                       label="TZPORTFOLIO_ADDON_TITLE_MARGIN_TOP"/>
+                <field type="number" name="title_margin_bottom" showon="title!:"
+                       label="TZPORTFOLIO_ADDON_TITLE_MARGIN_BOTTOM"/>
+                <field name="video_url" type="url" default="" label="TZPORTFOLIO_ADDON_VIDEO_URL" description="TZPORTFOLIO_ADDON_VIDEO_URL_DESC" />
+                <field type="list" name="autoplay" default="0"
+                       label="TZPORTFOLIO_ADDON_VIDEO_AUTOPLAY" description="TZPORTFOLIO_ADDON_VIDEO_AUTOPLAY_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field type="list" name="loop" default="0"
+                       label="TZPORTFOLIO_ADDON_VIDEO_LOOP" description="TZPORTFOLIO_ADDON_VIDEO_LOOP_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field type="list" name="muted" default="0"
+                       label="TZPORTFOLIO_ADDON_VIDEO_MUTE" description="TZPORTFOLIO_ADDON_VIDEO_MUTE_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field type="list" name="autopause" default="1"
+                       label="TZPORTFOLIO_ADDON_VIDEO_AUTOPAUSE" description="TZPORTFOLIO_ADDON_VIDEO_AUTOPAUSE_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field type="list" name="byline" default="1"
+                       label="TZPORTFOLIO_ADDON_VIDEO_BYLINE" description="TZPORTFOLIO_ADDON_VIDEO_BYLINE_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field type="list" name="video_title" default="1"
+                       label="TZPORTFOLIO_ADDON_VIDEO_TITLE" description="TZPORTFOLIO_ADDON_VIDEO_TITLE_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field type="list" name="portrait" default="1"
+                       label="TZPORTFOLIO_ADDON_VIDEO_PORTRAIT" description="TZPORTFOLIO_ADDON_VIDEO_PORTRAIT_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field type="list" name="controls" default="1"
+                       label="TZPORTFOLIO_ADDON_VIDEO_CONTROLS" description="TZPORTFOLIO_ADDON_VIDEO_CONTROLS_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field type="list" name="show_rel_video" default="0"
+                       label="TZPORTFOLIO_ADDON_VIDEO_SHOW_REL" description="TZPORTFOLIO_ADDON_VIDEO_SHOW_REL_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field type="list" name="no_cookie" default="0"
+                       label="TZPORTFOLIO_ADDON_VIDEO_NO_COOKIE" description="TZPORTFOLIO_ADDON_VIDEO_NO_COOKIE_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field type="text" name="custom_class"
+                       label="TZPORTFOLIO_ADDON_CONTENT_CLASS"/>
+            </fieldset>
+        </fields>
+    </fields>
+    <!-- End form's field for article's create or edit view -->
+</form>
